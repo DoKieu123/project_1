@@ -1,303 +1,341 @@
+import getters from "./getters";
+import actions from "./actions";
 import { defineStore } from "pinia";
 
-const useProStore = defineStore("Product", {
+const useProStore = defineStore("product", {
   state: () => {
     return {
-      Product: [
+      product: [
           {
-            id: 1,
+            id: 'c1',
             link: "/product/anh2.jpg",
             reduce:"45%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"5.7k"
+            price:99000,
+            sold:"5.7k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs5.jpg"]
           },
           {
-            id: 2,
+            id: 'c2',
             link: "/product/anh3.jpg",
             reduce:"5%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"5.7k"
+            price: 99000,
+            sold:"5.7k",
+            list:["/product/bs5.jpg","/product/bs6.jpg","/product/bs7.jpg","/product/bs8.jpg","/product/bs1.jpg"]
           },
           {
-            id: 3,
+            id: 'c3',
             link: "/product/anh4.jpg",
             reduce:"87%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 9.000",
-            sold:"7k"
+            price:888000,
+            sold:"7k",
+            list:["/product/bs8.jpg","/product/bs9.jpg","/product/bs10.jpg","/product/bs11.jpg","/product/bs1.jpg"]
           },
           {
-            id: 4,
+            id: 'c4',
             link: "/product/anh5.jpg",
             reduce:"90%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 1.000",
-            sold:"17k"
+            price: 1000,
+            sold:"17k",
+            list:["/product/bs9.jpg","/product/bs10.jpg","/product/bs11.jpg","/product/bs12.jpg","/product/bs1.jpg"]
           },
           {
-            id: 5,
+            id: 'c5',
             link: "/product/anh6.jpg",
             reduce:"65%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 990.000",
-            sold:"1k"
+            price: 990000,
+            sold:"1k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs1.jpg"]
           },
           {
-            id: 6,
+            id: 'c6',
             link: "/product/anh7.jpg",
             reduce:"3%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 998.000",
-            sold:"34k"
+            price: 998000,
+            sold:"34k",
+            list:["/product/bs11.jpg","/product/bs12.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs1.jpg"]
           },
           {
-            id: 7,
+            id: 'c7',
             link: "/product/anh8.jpg",
             reduce:"17%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 909.000",
-            sold:"6k"
+            price: 909000,
+            sold:"6k",
+            list:["/product/bs4.jpg","/product/bs8.jpg","/product/bs3.jpg","/product/bs9.jpg","/product/bs1.jpg"]
           },
           {
-            id: 8,
+            id: 'c8',
             link: "/product/anh9.jpg",
             reduce:"1%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 199.000",
-            sold:"2k"
+            price: 199000,
+            sold:"2k",
+            list:["/product/bs9.jpg","/product/bs10.jpg","/product/bs11.jpg","/product/bs12.jpg","/product/bs1.jpg"]
           },
           {
-            id: 9,
+            id: 'c9',
             link: "/product/anh10.jpg",
             reduce:"9%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 999.000",
-            sold:"8k"
+            price: 999000,
+            sold:"8k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs1.jpg"]
           },
           {
-            id: 10,
+            id: 'c10',
             link: "/product/anh11.jpg",
             reduce:"87%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 9.000",
-            sold:"97k"
+            price: 9000,
+            sold:"97k",
+            list:["/product/bs12.jpg","/product/bs11.jpg","/product/bs10.jpg","/product/bs9.jpg","/product/bs1.jpg"]
           },
           {
-            id: 11,
+            id: 'c11',
             link: "/product/anh12.jpg",
             reduce:"2%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 987.000",
-            sold:"65k"
+            price: 987000,
+            sold:"65k",
+            list:["/product/bs5.jpg","/product/bs6.jpg","/product/bs7.jpg","/product/bs8.jpg","/product/bs1.jpg"]
           },
           {
-            id: 12,
+            id: 'c12',
             link: "/product/anh13.jpg",
             reduce:"2%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 19.000",
-            sold:"97k"
+            price: 19000,
+            sold:"97k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs1.jpg"]
           },
           {
-            id: 13,
+            id: 'c13',
             link: "/product/anh14.jpg",
             reduce:"34%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 765.000",
-            sold:"5k"
+            price: 765000,
+            sold:"5k",
+            list:["/product/bs8.jpg","/product/bs7.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs1.jpg"]
           },
           {
-            id: 14,
+            id: 'c14',
             link: "/product/anh15.jpg",
             reduce:"9%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 908.000",
-            sold:"7k"
+            price: 908000,
+            sold:"7k",
+            list:["/product/bs3.jpg","/product/bs2.jpg","/product/bs2.jpg","/product/bs4.jpg","/product/bs1.jpg"]
           },
           {
-            id: 15,
+            id: 'c15',
             link: "/product/anh16.jpg",
             reduce:"30%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 999.000",
-            sold:"12.7k"
+            price: 999000,
+            sold:"12.7k",
+            list:["/product/bs8.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs7.jpg","/product/bs1.jpg"]
           },
           {
-            id: 16,
+            id: 'c16',
             link: "/product/anh17.jpg",
             reduce:"4%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"8.7k"
+            price: 99000,
+            sold:"8.7k",
+            list:["/product/bs11.jpg","/product/bs10.jpg","/product/bs9.jpg","/product/bs12.jpg","/product/bs1.jpg"]
           },
           {
-            id: 17,
+            id: 'c17',
             link: "/product/anh18.jpg",
             reduce:"5%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"7.7k"
+            price: 99000,
+            sold:"7.7k",
+            list:["/product/bs8.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs7.jpg","/product/bs12.jpg"]
           },
           {
-            id: 18,
+            id: 'c18',
             link: "/product/anh19.jpg",
             reduce:"15%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 199.000",
-            sold:"1.7k"
+            price: 199000,
+            sold:"1.7k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs12.jpg"]
           },
           {
-            id: 19,
+            id: 'c19',
             link: "/product/anh20.jpg",
             reduce:"45%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"5.7k"
+            price: 99000,
+            sold:"5.7k",
+            list:["/product/bs5.jpg","/product/bs6.jpg","/product/bs8.jpg","/product/bs7.jpg","/product/bs12.jpg"]
           },
           {
-            id: 20,
+            id: 'c20',
             link: "/product/anh3.jpg",
             reduce:"5%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"5.7k"
+            price: 99000,
+            sold:"5.7k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs12.jpg"]
           },
           {
-            id: 21,
+            id: 'c21',
             link: "/product/anh4.jpg",
             reduce:"87%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 9.000",
-            sold:"7k"
+            price: 9000,
+            sold:"7k",
+            list:["/product/bs5.jpg","/product/bs6.jpg","/product/bs7.jpg","/product/bs8.jpg","/product/bs12.jpg"]
           },
           {
-            id: 22,
+            id: 'c22',
             link: "/product/anh5.jpg",
             reduce:"90%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 1.000",
-            sold:"17k"
+            price: 1000,
+            sold:"17k",
+            list:["/product/bs9.jpg","/product/bs10.jpg","/product/bs11.jpg","/product/bs12.jpg","/product/bs12.jpg"]
           },
           {
-            id: 23,
+            id: 'c23',
             link: "/product/anh6.jpg",
             reduce:"65%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 990.000",
-            sold:"1k"
+            price: 990000,
+            sold:"1k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs12.jpg"]
           },
           {
-            id: 24,
+            id: 'c24',
             link: "/product/anh7.jpg",
             reduce:"3%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 998.000",
-            sold:"34k"
+            price: 998000,
+            sold:"34k",
+            list:["/product/bs5.jpg","/product/bs6.jpg","/product/bs7.jpg","/product/bs8.jpg","/product/bs12.jpg"]
           },
           {
-            id: 25,
+            id: 'c25',
             link: "/product/anh8.jpg",
             reduce:"17%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 909.000",
-            sold:"6k"
+            price: 909000,
+            sold:"6k",
+            list:["/product/bs1.jpg","/product/bs3.jpg","/product/bs2.jpg","/product/bs4.jpg","/product/bs12.jpg"]
           },
           {
-            id: 26,
+            id:'c26',
             link: "/product/anh9.jpg",
             reduce:"1%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 199.000",
-            sold:"2k"
+            price: 199000,
+            sold:"2k",
+            list:["/product/bs8.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs7.jpg","/product/bs12.jpg"]
           },
           {
-            id: 27,
+            id: 'c27',
             link: "/product/anh10.jpg",
             reduce:"9%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 999.000",
-            sold:"8k"
+            price: 999000,
+            sold:"8k",
+            list:["/product/bs4.jpg","/product/bs3.jpg","/product/bs2.jpg","/product/bs1.jpg","/product/bs12.jpg"]
           },
           {
-            id: 28,
+            id: 'c28',
             link: "/product/anh11.jpg",
             reduce:"87%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 9.000",
-            sold:"97k"
+            price: 9000,
+            sold:"97k",
+            list:["/product/bs8.jpg","/product/bs7.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs12.jpg"]
           },
           {
-            id: 29,
+            id: 'c29',
             link: "/product/anh12.jpg",
             reduce:"2%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 987.000",
-            sold:"65k"
+            price: 987000,
+            sold:"65k",
+            list:["/product/bs9.jpg","/product/bs10.jpg","/product/bs11.jpg","/product/bs12.jpg","/product/bs12.jpg"]
           },
           {
-            id: 30,
+            id: 'c30',
             link: "/product/anh13.jpg",
             reduce:"2%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 19.000",
-            sold:"97k"
+            price: 19000,
+            sold:"97k",
+            list:["/product/bs12.jpg","/product/bs11.jpg","/product/bs10.jpg","/product/bs9.jpg","/product/bs12.jpg"]
           },
           {
-            id: 31,
+            id: 'c31',
             link: "/product/anh14.jpg",
             reduce:"34%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 765.000",
-            sold:"5k"
+            price: 765000,
+            sold:"5k",
+            list:["/product/bs8.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs7.jpg","/product/bs12.jpg"]
           },
           {
-            id: 32,
+            id: 'c32',
             link: "/product/anh15.jpg",
             reduce:"9%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 908.000",
-            sold:"7k"
+            price: 908000,
+            sold:"7k",
+            list:["/product/bs1.jpg","/product/bs2.jpg","/product/bs3.jpg","/product/bs4.jpg","/product/bs12.jpg"]
           },
           {
-            id: 33,
+            id: 'c33',
             link: "/product/anh16.jpg",
             reduce:"30%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 999.000",
-            sold:"12.7k"
+            price: 999000,
+            sold:"12.7k",
+            list:["/product/bs8.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs7.jpg","/product/bs12.jpg"]
           },
           {
-            id: 34,
+            id: 'c34',
             link: "/product/anh17.jpg",
             reduce:"4%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"8.7k"
+            price: 99000,
+            sold:"8.7k",
+            list:["/product/bs5.jpg","/product/bs6.jpg","/product/bs8.jpg","/product/bs7.jpg","/product/bs7.jpg"]
           },
           {
-            id: 35,
+            id: 'c35',
             link: "/product/anh18.jpg",
             reduce:"5%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 99.000",
-            sold:"7.7k"
+            price: 99000,
+            sold:"7.7k",
+            list:["/product/bs8.jpg","/product/bs6.jpg","/product/bs5.jpg","/product/bs7.jpg","/product/bs7.jpg"]
           },
           {
-            id: 36,
+            id: 'c36',
             link: "/product/anh19.jpg",
             reduce:"15%",
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
-            price:" đ 199.000",
-            sold:"1.7k"
+            price: 199000,
+            sold:"1.7k",
+            list:["/product/bs5.jpg","/product/bs6.jpg","/product/bs8.jpg","/product/bs7.jpg","/product/bs6.jpg"]
           },
           
       ],
     };
   },
-  //   getters,
-  //   actions,
+    getters,
+    actions,
 });
 
 export default useProStore;
