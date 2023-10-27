@@ -11,7 +11,7 @@
         </div>
       </li>
       <li>
-        <router-link to="#" class="cart">
+        <router-link to="/cart" class="cart">
           <i class="fa-solid fa-cart-shopping"></i>
         </router-link>
       </li>

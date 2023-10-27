@@ -2,14 +2,17 @@
   <div class="content">
     <div class="left">
       <div class="img_important">
-        <img :src="img" alt="" v-if="hinden" />
-        <img :src="mainImage" alt="" v-else>
+        <img :src="selectItem.link" alt="" v-if="hinden" />
+        <img :src="mainImage" alt="" v-else />
       </div>
       <ul class="img_list">
-        <li class="red" v-for="(item,index) in list" :key="index" >
-          <img :src="item" alt="" 
-           @mouseenter="showMainImage(item)"
-          @mouseleave="clearMainImage"/>
+        <li class="red" v-for="(item, index) in selectItem.list" :key="index">
+          <img
+            :src="item"
+            alt=""
+            @mouseenter="showMainImage(item)"
+            @mouseleave="clearMainImage"
+          />
         </li>
       </ul>
       <ul class="social_like">
@@ -53,9 +56,7 @@
       </ul>
     </div>
     <div class="right">
-      <h5>
-        <span>Yêu Thích</span>{{ name }}
-      </h5>
+      <h5><span>Yêu Thích</span>{{ selectItem.describe }}</h5>
       <div class="describe_report">
         <ul class="describe">
           <li class="star">
@@ -72,7 +73,7 @@
       </div>
       <div class="reduce">
         <div class="nike">đ 99.000</div>
-        <h6>{{ price }} đ</h6>
+        <h6>{{ selectItem.price }} đ</h6>
         <span> 30% GIẢM </span>
       </div>
       <ul class="subtitle">
@@ -96,7 +97,7 @@
             </div>
             <div class="left">
               <i class="fa-solid fa-car"></i> <span>Vận Chuyển Tới</span>
-              <p>Hà Nội <i class="fa-solid fa-chevron-up fa-rotate-180"></i> </p>
+              <p>Hà Nội <i class="fa-solid fa-chevron-up fa-rotate-180"></i></p>
             </div>
             <div class="transport">
               <span>Phí Vận Chuyển</span>
@@ -134,7 +135,10 @@
       </ul>
       <div class="btn">
         <button class="cart">
-          <i class="fa-solid fa-cart-shopping"></i> Thêm Vào Giỏ Hàng
+          <router-link to="/cart" style="color:#ee4d2d;" @click="cartProduct">
+            <i class="fa-solid fa-cart-shopping"></i> Thêm Vào Giỏ
+            Hàng</router-link
+          >
         </button>
         <button class="buy">Mua Ngay</button>
       </div>
@@ -151,54 +155,62 @@
 
 <script>
 import useProStore from "@/store/product";
+import useCartStore from "@/store/cart"
 import { mapStores } from "pinia";
 export default {
-  props:["id"],
+  // acd là đối tượng có id trùng với id của url :
+  // const acd = {
+  // link: pro.link,
+  // describe: pro.describe,
+  // price : pro.price,
+  // list : pro.list
+  //};
+  //
+  props: ["id", "acd"],
   data() {
     return {
       selectItem: null,
-      hinden: true
-    }
+      hinden: true,
+    };
   },
-  mounted(){
+  mounted() {
     console.log(this.id);
   },
- 
+  // gán acd cho biến selectItem
+  watch: {
+    acd: function (newValue) {
+      this.selectItem = newValue;
+    },
+  },
+
   computed: {
     ...mapStores(useProStore),
-  
-
-    img(){
-      return this.selectItem.link;
-    },
-    name(){
-      return this.selectItem.describe
-    },
-    price(){
-        return this.selectItem.price
-    },
-    list(){
-      return this.selectItem.list
-    }
   },
+  //  Khởi tạo dữ liệu hoặc trạng thái của component.
   //  tìm kiếm một "sản phẩm" cụ thể trong mảng allproduct.
-  // allCoaches dựa trên giá trị id và sau đó gán đối tượng sản phẩm tìm thấy vào thuộc tính selectedCoach của component
+  //  allCoaches dựa trên giá trị id và sau đó gán đối tượng sản phẩm tìm thấy vào thuộc tính selectedCoach của component
   created() {
     this.selectItem = useProStore().allproduct.find(
       (product) => product.id === this.$route.params.id
-      )
-      console.log(this.selectItem.list);
+    );
   },
   methods: {
     showMainImage(imageUrl) {
-      this.hinden = !this.hinden
+      this.hinden = !this.hinden;
       this.mainImage = imageUrl; // Gán hình ảnh chính bằng hình ảnh được hover
     },
     clearMainImage() {
-      this.mainImage = ''; // Xóa hình ảnh chính khi không hover
+      this.hinden = true; //tắt ảnh hover
     },
-  }
-
+    cartProduct(){
+      useCartStore().registerCart(this.selectItem)
+    }
+  },
+  // bước 1 : created () : khởi tạo dữ liệu cho biến selectItem bằng đối tượng trong store
+  //  thỏa mãn điều kiện id = this.$route.params.id và hiện thị lên trên
+  // bước 2 : watch acd ( là đối tượng nằm trong product ở trang itemcenter) đầu tiên bằng null
+  //khi bấm vào 1 đối tượng trong (product ở trang itemcenter) thì acd sẽ thay đổi và có giá trị
+  //bằng newValue => giá trị newValue sẽ gán bằng selectItem và hiện thị ra phía trên
 };
 </script>
 
@@ -235,6 +247,9 @@ a {
       width: calc(100% / 5);
       img {
         width: 95%;
+      }
+      :hover {
+        border: 5px solid red;
       }
     }
   }
@@ -361,136 +376,133 @@ a {
       padding-right: 10px;
       text-align: left;
     }
-    li >div{
-        font-size: 14px;
+    li > div {
+      font-size: 14px;
     }
   }
-  .know{
+  .know {
     display: flex;
     color: black;
-    .new{
-        background-color: rgb(241, 43, 8);
-        color: white;
-        padding: 2px 5px;
-        border-radius: 10px 10px 10px 0px;
-        font-size: 11px;
-        margin-right: 15px;
+    .new {
+      background-color: rgb(241, 43, 8);
+      color: white;
+      padding: 2px 5px;
+      border-radius: 10px 10px 10px 0px;
+      font-size: 11px;
+      margin-right: 15px;
     }
   }
-  .free{
+  .free {
     text-align: left;
-    img{
-        width: 25px;
+    img {
+      width: 25px;
     }
   }
-  .left{
+  .left {
     margin-top: 10px;
     display: flex;
     width: 250px;
-    i{
-        color: black;
-        margin-right: 10px;
+    i {
+      color: black;
+      margin-right: 10px;
     }
-    span{
-        color: #727070;
-        margin-right: 10px;
+    span {
+      color: #727070;
+      margin-right: 10px;
     }
-    i{
-        color: #727070;
+    i {
+      color: #727070;
     }
-    
   }
-  .transport{
+  .transport {
     text-align: left;
     display: flex;
     padding-left: 23px;
     margin-top: 10px;
-    span{
-        color: #727070;
-        padding-right: 10px;
+    span {
+      color: #727070;
+      padding-right: 10px;
     }
-    i{
-        color: #727070;
-    }
-  }
-  .color{
-    span{
-        margin-right: 30px;
+    i {
+      color: #727070;
     }
   }
- 
-  .list_color{
+  .color {
+    span {
+      margin-right: 30px;
+    }
+  }
+
+  .list_color {
     display: flex;
     flex-wrap: wrap;
-    li{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: calc( 100% / 3 - 30px );
-        margin-right: 10px;
-        border: 1px solid #727070;
-        padding: 7px 0px;
-        
-        a{
-            color: black;
-        }
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(100% / 3 - 30px);
+      margin-right: 10px;
+      border: 1px solid #727070;
+      padding: 7px 0px;
+
+      a {
+        color: black;
+      }
     }
   }
-  .number{
+  .number {
     display: flex;
     margin-top: 10px;
   }
-  .quantity{
+  .quantity {
     align-items: left;
     margin-right: 15px;
-    span{
-        padding: 10px 15px;
-        border: 1px solid #696666;
+    span {
+      padding: 10px 15px;
+      border: 1px solid #696666;
     }
-    span:nth-child(2){
-        border-left: 0px;
-        border-right: 0px;
+    span:nth-child(2) {
+      border-left: 0px;
+      border-right: 0px;
     }
   }
-  .btn{
+  .btn {
+    // display: flex;
     margin-top: 30px;
     margin-right: 180px;
     margin-bottom: 30px;
-    .cart{
-        margin-right: 10px;
-        padding: 10px 25px;
-        background: rgba(255,87,34,.1);
-        color: #ee4d2d;
-        border: 1px solid #ee4d2d;
-        border-radius: 2px;
-  
+    .cart {
+      margin-right: 10px;
+      padding: 10px 25px;
+      background: rgba(255, 87, 34, 0.1);
+      color: #ee4d2d;
+      border: 1px solid #ee4d2d;
+      border-radius: 2px;
     }
-    .buy{
-        padding: 10px 49px;
-        border: 1px solid #ee4d2d;
-        background-color: #ee4d2d;
-        color: white;
-        border-radius: 2px;
+    .buy {
+      padding: 10px 49px;
+      border: 1px solid #ee4d2d;
+      background-color: #ee4d2d;
+      color: white;
+      border-radius: 2px;
     }
   }
-  .boder{
+  .boder {
     display: flex;
     margin-left: 25px;
     font-size: 14px;
     border-top: 1px solid #cecaca;
     padding-top: 30px;
-    .black{
-        color: black;
-        margin-right: 20px;
+    .black {
+      color: black;
+      margin-right: 20px;
     }
     img {
-        width: 20px;
+      width: 20px;
     }
-    span{
-        color: #727070;
+    span {
+      color: #727070;
     }
   }
-  
-
 }
 </style>

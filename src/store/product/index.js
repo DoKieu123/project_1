@@ -202,7 +202,7 @@ const useProStore = defineStore("product", {
             describe: "[Mã COSXANH100 giảm 10% đơn 250K] Son Handmade mazinnnnnnnnnnnn",
             price: 1000,
             sold:"17k",
-            list:["/product/bs9.jpg","/product/bs10.jpg","/product/bs11.jpg","/product/bs12.jpg","/product/bs12.jpg"]
+            list:["/product/bs3.jpg","/product/bs2.jpg","/product/bs1.jpg","/product/bs12.jpg","/product/bs12.jpg"]
           },
           {
             id: 'c23',

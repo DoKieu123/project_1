@@ -1,24 +1,15 @@
 <template>
   <div class="body">
     <div class="conten">
-      <div class="suggest">
-        <a href="">
-          <h5>GỢI Ý HÔM NAY</h5>
-        </a>
-      </div>
+      <h4>CÓ THỂ BẠN CŨNG THÍCH</h4>
       <div>
-        <AppFilter
-          @setfilter="setfilter"
-          @increasePrice="increaseprice"
-          @reduce="reduce"
-        ></AppFilter>
         <ul>
           <li
             v-for="product in products"
             :key="product.id"
             style="position: relative"
           >
-            <router-link :to="to(product.id)">
+            <router-link :to="to(product.id)" @click="linkToProductDetail(product.id)">
               <div class="img_bg">
                 <div class="img_conten">
                   <img :src="product.link" />
@@ -40,9 +31,9 @@
                 <p class="sold">Đã bán {{ product.sold }}</p>
               </div>
             </router-link>
-            <div class="more" style="position: absolute; left: 0px">
+            <!-- <div class="more" style="position: absolute; left: 0px">
               <p>Tìm sản phẩm tương tự</p>
-            </div>
+            </div> -->
           </li>
         </ul>
       </div>
@@ -55,18 +46,13 @@
 
 <script>
 import useProStore from "@/store/product";
-import AppFilter from "./filter/AppFilter.vue";
 import { mapStores } from "pinia";
 export default {
+  emits: ["abc",],
   data() {
-    return {
-      minprice: null,
-      maxprice: null,
-    };
+    return {};
   },
-  components: {
-    AppFilter,
-  },
+  components: {},
   computed: {
     ...mapStores(useProStore),
 
@@ -75,18 +61,24 @@ export default {
     },
   },
   methods: {
-    setfilter(data) {
-      useProStore().filterPrice(data);
-    },
-    //  lấy id của sản phẩm đó để cho vào đường dẫn url để sang trang AppItemCenter.vue
     to(productId) {
+      
       return `/item/${productId}`;
     },
-    increaseprice() {
-      useProStore().increase();
-    },
-    reduce() {
-      useProStore().reduceProduct();
+    // find(item) => điều kiện : dùng để tìm kiếm một đối tượng nằm trong danh sách thỏa mãn điều kiện 
+    linkToProductDetail(productId) {
+      const pro = useProStore().allproduct.find(
+        (product) => product.id === productId
+      );
+      const pros = {
+        link: pro.link,
+        describe: pro.describe,
+        price : pro.price,
+        list : pro.list
+      };
+      console.log(pros);
+      this.$emit("abc",pros);
+      window.scrollTo(0, 0);
     },
   },
 };
@@ -105,6 +97,12 @@ export default {
 .conten {
   width: 95%;
   margin: auto;
+}
+h4 {
+  text-align: left;
+  color: #a59c9c;
+  font-size: 15px;
+  margin-bottom: 15px;
 }
 a {
   text-decoration: none;
@@ -127,13 +125,7 @@ li {
   border: 1px solid transparent;
 }
 li:hover {
-  // transform: translateY(-2px);
-  // transform: scale(1.1);
-  margin-top: -1px;
-  border: 1px solid rgb(216, 43, 12);
-}
-li:hover .more {
-  display: unset;
+  transform: translateY(-2px);
 }
 
 .img_bg {
@@ -230,20 +222,7 @@ li:hover .more {
   overflow: hidden;
   margin-top: 8px;
 }
-///suggest////
-.suggest {
-  background-color: white;
-  z-index: 9999;
-  position: sticky;
-  top: 133.5px;
-  width: 100%;
-  padding: 18px;
-  border-bottom: 3px solid rgb(239, 96, 35);
-}
-.suggest h5 {
-  color: rgb(193, 57, 12);
-  font-size: 18px;
-}
+
 .more {
   z-index: 999;
   background-color: rgb(210, 51, 7);
