@@ -2,6 +2,11 @@
   <div class="content">
     <div class="left">
       <div class="img_important">
+        <!-- seclectItem.link là ảnh chỉnh của sản phẩm  -->
+        <!-- mainImage là khung ảnh bản sao y nguyên seclectItem.link để chứa các ảnh phụ phía dưới -->
+        <!-- khi hover vào các ảnh phụ thì (seclectItem.link =>display:none )(mainImage =>dispaly: block) -->
+        <!-- khi hover vào các ảnh phụ thì sự kiện showMainImage(item) : item: link ảnh phụ được truyền vào   -->
+        <!-- sự kiện showMainImage(item) tháy thế src mainImage = item  -->
         <img :src="selectItem.link" alt="" v-if="hinden" />
         <img :src="mainImage" alt="" v-else />
       </div>
@@ -122,12 +127,12 @@
           <span>Số Lượng</span>
           <div class="number">
             <div class="quantity">
-              <span>-</span>
-              <span>1</span>
-              <span>+</span>
+              <span @click="giam(selectItem.id)">-</span>
+              <span>{{ selectItem.selected }}</span>
+              <span @click="tang(selectItem.id)">+</span>
             </div>
             <div>
-              <span>18244</span>
+              <span>{{ selectItem.warehouse }}</span>
               sản phẩm có sẵn
             </div>
           </div>
@@ -152,10 +157,12 @@
     </div>
   </div>
 </template>
+<!--  tạo ra một biến selectItem: null, để lưu giữ liệu của sản phẩm được chọn ( là sản phẩm có id trùng với id của đường dẫn url) -->
 
 <script>
 import useProStore from "@/store/product";
-import useCartStore from "@/store/cart"
+// import useCartStore from "@/store/cart";
+import useShopStore from "@/store/shop"
 import { mapStores } from "pinia";
 export default {
   // acd là đối tượng có id trùng với id của url :
@@ -172,9 +179,6 @@ export default {
       selectItem: null,
       hinden: true,
     };
-  },
-  mounted() {
-    console.log(this.id);
   },
   // gán acd cho biến selectItem
   watch: {
@@ -203,8 +207,26 @@ export default {
       this.hinden = true; //tắt ảnh hover
     },
     cartProduct(){
-      useCartStore().registerCart(this.selectItem)
+      useShopStore().registershop(this.selectItem)
+    },
+    giam(value){
+      const aa = useProStore().allproduct.find(
+      (product) => product.id === value
+    );
+     aa.selected --
+     aa.warehouse --
     }
+    ,
+    tang(value){
+      const bb = useProStore().allproduct.find(
+      (product) => product.id === value
+    );
+     bb.selected ++
+     bb.warehouse ++
+     
+    }
+
+
   },
   // bước 1 : created () : khởi tạo dữ liệu cho biến selectItem bằng đối tượng trong store
   //  thỏa mãn điều kiện id = this.$route.params.id và hiện thị lên trên

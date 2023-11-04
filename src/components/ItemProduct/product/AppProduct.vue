@@ -74,7 +74,9 @@ export default {
         link: pro.link,
         describe: pro.describe,
         price : pro.price,
-        list : pro.list
+        list : pro.list,
+        selected:pro.selected,
+        warehouse:pro.warehouse,
       };
       console.log(pros);
       this.$emit("abc",pros);

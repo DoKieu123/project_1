@@ -3,8 +3,7 @@
     <AppHeader></AppHeader>
 
     <AppProductCart></AppProductCart>
-
-    <AppProduct></AppProduct>
+   <AppProduct></AppProduct>
     <AppFooter></AppFooter>
     <div class="chat">
       <i class="fa-solid fa-message"></i>

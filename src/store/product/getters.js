@@ -1,3 +1,3 @@
 export default {
-    allproduct:(state) => state.product
-}
+  allproduct:(state) => state.product
+};

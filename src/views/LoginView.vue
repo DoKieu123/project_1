@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <AppHeader :hiddens="hiddens"></AppHeader>
+    <AppHeader :block="block"></AppHeader>
     <!-- :tên thuộc tính =giá trị truyền từ con lên  -->
     <AppBody :hidden="hidden" :block="block"></AppBody>
     <AppFooter></AppFooter>

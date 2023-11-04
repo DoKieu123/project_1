@@ -17,31 +17,36 @@
             v-for="product in products"
             :key="product.id"
             style="position: relative"
+            :class="{ 'my-class': product.hidden === false,'my-classs': product.hidden === true }"
           >
-            <router-link :to="to(product.id)">
-              <div class="img_bg">
-                <div class="img_conten">
-                  <img :src="product.link" />
+            <div
+              v-if="product.hidden"
+            >
+              <router-link :to="to(product.id)">
+                <div class="img_bg">
+                  <div class="img_conten">
+                    <img :src="product.link" />
+                  </div>
+                  <div class="love">
+                    <p>Yêu thích</p>
+                  </div>
+                  <div class="reduce">
+                    <span> {{ product.reduce }}</span>
+                    <p>GIẢM</p>
+                  </div>
+                  <div class="img_main">
+                    <img src="@/assets/booton1.png" alt="" />
+                  </div>
                 </div>
-                <div class="love">
-                  <p>Yêu thích</p>
+                <p class="describe">{{ product.describe }}</p>
+                <div class="unit">
+                  <p class="price">{{ product.price }}</p>
+                  <p class="sold">Đã bán {{ product.sold }}</p>
                 </div>
-                <div class="reduce">
-                  <span> {{ product.reduce }}</span>
-                  <p>GIẢM</p>
-                </div>
-                <div class="img_main">
-                  <img src="@/assets/booton1.png" alt="" />
-                </div>
+              </router-link>
+              <div class="more" style="position: absolute; left: 0px">
+                <p>Tìm sản phẩm tương tự</p>
               </div>
-              <p class="describe">{{ product.describe }}</p>
-              <div class="unit">
-                <p class="price">{{ product.price }}</p>
-                <p class="sold">Đã bán {{ product.sold }}</p>
-              </div>
-            </router-link>
-            <div class="more" style="position: absolute; left: 0px">
-              <p>Tìm sản phẩm tương tự</p>
             </div>
           </li>
         </ul>
@@ -69,7 +74,6 @@ export default {
   },
   computed: {
     ...mapStores(useProStore),
-
     products() {
       return useProStore().allproduct;
     },
@@ -82,9 +86,12 @@ export default {
     to(productId) {
       return `/item/${productId}`;
     },
+    //sắp xếp theo tăng giá gọi hàm bên action(product)
     increaseprice() {
       useProStore().increase();
+      console.log(useProStore().allproduct);
     },
+    // sắp xếp theo giảm giá gọi hàm bên action (product)
     reduce() {
       useProStore().reduceProduct();
     },
@@ -117,7 +124,7 @@ ul {
   margin-top: 10px;
   flex-wrap: wrap;
 }
-li {
+.my-classs {
   // z-index: 1;
   max-width: calc(100% / 6 - 10px);
   margin: 0px 5px;
@@ -126,13 +133,18 @@ li {
   border-radius: 2px;
   border: 1px solid transparent;
 }
-li:hover {
+.my-class{
+  width: 0px;
+  height: 0px;
+  
+}
+.my-classs:hover {
   // transform: translateY(-2px);
   // transform: scale(1.1);
   margin-top: -1px;
   border: 1px solid rgb(216, 43, 12);
 }
-li:hover .more {
+.my-classs:hover .more {
   display: unset;
 }
 

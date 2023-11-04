@@ -10,7 +10,12 @@
       </div>
       <div class="standard while">
         <div class="input">
-          <input type="checkbox" id="product" />
+          <input
+            type="checkbox"
+            id="product"
+            v-model="doneall"
+            @click="donealls()"
+          />
           <label for="product">Sản Phẩm</label>
         </div>
         <div class="list">
@@ -21,60 +26,71 @@
         </div>
       </div>
       <ul>
-        <li v-for="cart in listCart"
-            :key="cart.id"
-         class="item_cart">
-          <div class="shop while">
-            <input type="checkbox"/>
-            <div class="name_shop">
-              <span class="love">Yêu thích</span>
-              <span class="name"> Beauty Gril.vn</span>
-              <i class="fa-solid fa-message"></i>
-            </div>
-          </div>
-          <div class="flex while">
-            <div class="products">
-              <input type="checkbox" />
-              <div class="img_product">
-                <img :src="cart.link" alt="" />
+        <li v-for="shop in listshop" :key="shop.id" class="item_cart">
+         <div v-if="shop.products.length >0">
+            <div class="shop while" >
+              <input
+                type="checkbox"
+                v-model="shop.choone"
+                @click="choone(shop.id, shop.choone)"
+              />
+              <div class="name_shop">
+                <span class="love">Yêu thích</span>
+                <span class="name"> {{ shop.name }}</span>
+                <i class="fa-solid fa-message"></i>
               </div>
-              <div class="detail_product">
-                <p>{{ cart. describe }}</p>
-                <img src="@/assets/anh1.jpg" alt="" />
-                <div class="sevent">
-                  <img src="@/assets/giam7.png" alt="" />
-                  <p>7 Ngày Miễn Phí Trả Hàng</p>
+            </div>
+            <ul>
+              <li
+                v-for="product in shop.products"
+                :key="product.id"
+                class="flex while"
+              >
+                <div class="products">
+                  <input type="checkbox" v-model="product.chone" />
+                  <div class="img_product">
+                    <img :src="product.link" alt="" />
+                  </div>
+                  <div class="detail_product">
+                    <p>{{ product.describe }}</p>
+                    <img src="@/assets/anh1.jpg" alt="" />
+                    <div class="sevent">
+                      <img src="@/assets/giam7.png" alt="" />
+                      <p>7 Ngày Miễn Phí Trả Hàng</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+                <div class="list">
+                  <div class="compare">
+                    <span class="discount">đ 299000</span>
+                    <span class="prices">đ{{ product.priceunit }}</span>
+                  </div>
+                  <div class="quantity">
+                    <span @click="reduce(product.id)">-</span>
+                    <span>{{ product.selected }}</span>
+                    <span @click="increase(product.id)">+</span>
+                  </div>
+                  <span class="price">đ {{ product.price }}</span>
+  
+                  <button @click="deleteCart(product.id)">Xóa</button>
+                </div>
+              </li>
+            </ul>
+            <div class="ticket while">
+              <i class="fa-solid fa-ticket"></i>
+              <span>Shop Voucher giảm đến 10%</span>
+              <span class="new"> Mới</span>
             </div>
-            <div class="list">
-              <div class="compare">
-                <span class="discount">đ 299000</span>
-                <span class="prices">đ{{ cart.priceunit }}</span>
-              </div>
-              <div class="quantity">
-                <span @click="reduce(cart.id)">-</span>
-                <span>{{ number }}</span>
-                <span @click="increase(cart)">+</span>
-              </div>
-              <span class="price">đ {{ cart.price }}</span>
-              <button @click="deleteCart(cart.id)">Xóa</button>
+            <div class="free_ship while">
+              <img src="@/assets/item-product/vanchuyen.png" alt="" />
+              <span>Giảm đ25.000 phí vận chuyển đơn tối thiểu đ99.000</span>
+              <a href="">Tìm hiểm thêm</a>
             </div>
-          </div>
-          <div class="ticket while">
-            <i class="fa-solid fa-ticket"></i>
-            <span>Shop Voucher giảm đến 10%</span>
-            <span class="new"> Mới</span>
-          </div>
-          <div class="free_ship while">
-            <img src="@/assets/item-product/vanchuyen.png" alt="" />
-            <span>Giảm đ25.000 phí vận chuyển đơn tối thiểu đ99.000</span>
-            <a href="">Tìm hiểm thêm</a>
-          </div>
+         </div>
         </li>
       </ul>
     </div>
-     <div class="butoon"> 
+    <div class="butoon">
       <div class="voucher">
         <div>
           <i class="fa-solid fa-ticket"></i>
@@ -94,60 +110,96 @@
       <div class="position">
         <div class="buy">
           <div class="all">
-            <input type="checkbox" />
+            <input type="checkbox" @click="selectedAll()" />
+            <!-- {{ total }}<p></p> -->
             <span>Chọn Tất Cả <span>({{ total }})</span></span>
           </div>
           <div class="btn">
-            <span>Tổng thanh toán (<span>0</span> Sản phẩm ):</span>
-            <span class="red">đ0</span>
+            <!-- {{ quantity }} -->
+            <span>Tổng thanh toán (<span>{{ quantity }}</span> Sản phẩm ):</span>
+            <!-- {{ selected }} -->
+            <span class="red">đ{{ selected }} </span>
             <button>Mua Hàng</button>
           </div>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
 </template>
 
 <script>
-import useCartStore from "@/store/cart"
+import useCartStore from "@/store/cart";
 export default {
   data() {
     return {
-      number: 1,
-    }
+      doneall: false,
+    };
   },
   computed: {
-    listCart(){ 
-      return useCartStore().allcart
+    listshop() {
+      return useCartStore().allcart;
     },
-    total(){
-      return useCartStore().allcart.length
+    
+
+    total() {
+      const productPrice = useCartStore().allcart.map((shop)=> shop.products)
+      const allPrice = productPrice.flat() // Gộp tất cả sản phẩm thành một mảng 1D
+                                   .length
+                                    return allPrice
+    },
+    
+    selected(){
+      const productPrice = useCartStore().allcart.map((shop)=> shop.products.filter((product)=> product.chone === true))
+      const allPrice = productPrice.flat() // Gộp tất cả sản phẩm thành một mảng 1D
+                                    .reduce((total, product) => total + product.price, 0);
+                                    return allPrice
+    },
+    quantity(){
+      const productPrice = useCartStore().allcart.map((shop)=> shop.products.filter((product)=> product.chone === true))
+      const allPrice = productPrice.flat() // Gộp tất cả sản phẩm thành một mảng 1D
+                                   .length
+                                    return allPrice
     }
-    ,
-  }
-  ,
-  methods:{
-    reduce(data){
-      this.number = this.number - 1
-      const pro = useCartStore().allcart.find(
-        (cart) => cart.id === data
+      
+  },
+  methods: {
+    reduce(data) {
+      const pro = useCartStore().allcart.find((cart) =>
+        cart.products.find((product) => product.id === data)
       );
-      pro.price =parseInt((pro.priceunit*this.number))
+
+      const pros = pro.products.find((product) => product.id === data);
+
+      pros.selected--;
+      pros.price = parseInt(pros.priceunit * pros.selected);
     },
 
-    increase(data){
-      this.number = this.number + 1
-      const pro = useCartStore().allcart.find(
-        (cart) => cart.id === data.id
+    increase(data) {
+      const pro = useCartStore().allcart.find((cart) =>
+        cart.products.find((product) => product.id === data)
       );
-      pro.price =parseInt(pro.priceunit*this.number)
+
+      const pros = pro.products.find((product) => product.id === data);
+      pros.selected++;
+      pros.price = parseInt(pros.priceunit * pros.selected);
     },
-    deleteCart(value){
-      useCartStore().deleteValue(value)
-    }
 
-  }
-
+    deleteCart(value) {
+      useCartStore().deleteValue(value);
+    },
+    choone(data, chone) {
+      const shop = useCartStore().allcart.find((shop) => shop.id === data);
+      const productsShop = shop.products;
+      productsShop.forEach((item) => (item.chone = !chone));
+    },
+    donealls() {
+      this.doneall = !this.doneall;
+      const shop = useCartStore().allcart;
+      shop.forEach((item) => (item.choone = this.doneall,
+      item.products.forEach((product) =>( product.chone = this.doneall))
+      ) );
+    },
+  },
 };
 </script>
 
@@ -165,11 +217,9 @@ input {
 .content {
   position: relative;
   margin-top: 20px;
- 
 }
-.content_top{
+.content_top {
   margin-bottom: 0px;
- 
 }
 .item_cart {
   margin-bottom: 20px;

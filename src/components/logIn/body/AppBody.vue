@@ -2,7 +2,7 @@
   <div>
     <div class="backgrou">
       <img src="@/assets/login/PasedangNhap/bgr.jpg" alt="" />
-      <form action="" id="login">
+      <form action="" id="login" onsubmit="return false">
         <div class="header" v-if="hidden">
           <h5>Đăng nhập</h5>
           <div class="text_qr">
@@ -16,17 +16,18 @@
           <h5>Đăng Ký</h5>
         </div>
         <div v-if="hidden">
-          <input type="text" placeholder="Email/Số điện thoại/Tên đăng nhập" />
+          <input type="text" placeholder="Email/Số điện thoại/Tên đăng nhập" v-model="signin.number"/>
           <div class="password">
-            <input type="text" placeholder="Mật khẩu" />
+            <input type="text" placeholder="Mật khẩu" v-model="signin.password" />
             <i class="fa-regular fa-eye"></i>
           </div>
         </div>
         <div v-else>
-          <input type="text" placeholder="Số điện thoại" />
+          <input type="text" placeholder="Số điện thoại" v-model="logIn.phone"/>
+          <input type="password" placeholder="Mật khẩu" v-model="logIn.password" />
         </div>
         <button v-if="hidden">ĐĂNG NHẬP</button>
-        <button v-else>ĐĂNG Ký</button>
+        <button v-else @click="register('login_in')">ĐĂNG Ký</button>
         <div class="forget" v-if="hidden">
           <a href="">Quên mật khẩu</a>
           <a href="">Đăng nhập với SMS </a>
@@ -58,16 +59,27 @@
 </template>
 
 <script>
+import useUserStore from "@/store/user"
 export default {
   data() {
     return {
-    
+    logIn:{phone:null,password:""},
+    signin:{number:null , password:""}
     };
   },
   props:{
     hidden: Boolean,
     block: Boolean,
+  },
+  methods: {
+    register(param){
+      console.log(param);
+      useUserStore().login(this.logIn)
+      
+      
+    }
   }
+  
 };
 </script>
 

@@ -6,7 +6,7 @@
       </li>
       <li>
         <div class="input">
-          <input type="text" placeholder="Shopee bao ship 0Đ - Đăng ký ngay!" />
+          <input type="text" placeholder="Shopee bao ship 0Đ - Đăng ký ngay!" v-model.trim ="content" @keydown.enter="handleEnter" />
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
       </li>
@@ -46,7 +46,19 @@
 </template>
 
 <script>
-export default {};
+  import  useProStore  from '@/store/product';
+export default {
+  data() {
+    return {
+      content: "",
+    }
+  },
+  methods: {
+    handleEnter(){
+      useProStore().filterProducts(this.content);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

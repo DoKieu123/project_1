@@ -5,12 +5,13 @@
             <a href="">
                 <img src="@/assets/login/PasedangNhap/logo.png" alt="">
             </a>
-            <h3 v-if="hiddens">
-                Đăng nhập
-            </h3>
-            <h3 v-else>
+            <h3 v-if="block">
                 Đăng ký 
             </h3>
+            <h3 v-else>
+                Đăng nhập
+            </h3>
+            
           </li>
           <li class="right">
             <a href="">
@@ -29,7 +30,7 @@
            }
         },
         props:{
-            hiddens:Boolean
+            block:Boolean
         }
     }
 </script>

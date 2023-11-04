@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="header">
-    <AppHeader></AppHeader>
+    <AppHeader ></AppHeader>
     </div>
    
     <attenTion></attenTion>
@@ -11,7 +11,7 @@
     <AppDiscount></AppDiscount>
     <AppSearch> </AppSearch>
     
-    <AppProduct></AppProduct>
+    <AppProduct ></AppProduct>
     <AppFooter></AppFooter>
    
     
@@ -41,6 +41,14 @@ export default {
   
   
   },
+  data() {
+    return {
+      nameproduct: ""
+    }
+  },
+  methods:{
+   
+  }
 };
 </script>
 <style>

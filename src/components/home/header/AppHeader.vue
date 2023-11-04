@@ -11,10 +11,14 @@
 import headerBelow from "./headerBelow.vue";
 import headerTop from "./headerTop.vue";
 export default {
+
   components: {
     headerTop,
     headerBelow,
   },
+  methods: {
+   
+  }
 };
 </script>
 
