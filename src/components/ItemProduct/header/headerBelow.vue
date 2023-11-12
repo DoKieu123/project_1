@@ -2,7 +2,7 @@
   <div class="below">
     <ul class="top">
       <li class="img">
-        <img src="@/assets/SHOPEEMALL-LOGO.png" alt="" />
+       <router-link to="/"> <img src="@/assets/SHOPEEMALL-LOGO.png" alt="" /></router-link>
       </li>
       <li>
         <div class="input">

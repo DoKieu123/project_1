@@ -56,6 +56,7 @@ export default {
   methods: {
     handleEnter(){
       useProStore().filterProducts(this.content);
+      this.content =""
     }
   }
 };

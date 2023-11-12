@@ -23,8 +23,24 @@
           <i class="fa-solid fa-chevron-up fa-rotate-180"></i
         ></a>
       </li>
-      <li class="vertical"><a href="" @click="login('sign_in')">Đăng ký </a></li>
-      <li><a href="" @click="login('login_in')">Đăng nhập</a></li>
+      
+      <li>
+        <ul v-if="!logged">
+          <li class="vertical">
+            <router-link to="/register">Đăng ký </router-link>
+          </li>
+          <li><router-link href="" to="/login">Đăng nhập</router-link></li>
+        </ul>
+        <ul class="logged" v-else>
+          <li class="name">{{ getUsers }}</li>
+          <ul class="extra">
+            <li><router-link to="/cart"> Đơn Hàng </router-link></li>
+            <li>
+              <div @click="logout">Đăng Xuất </div>
+            </li>
+          </ul>
+        </ul>
+      </li>
     </ul>
   </div>
   <!-- tab phụ bên phải khi reponsive -->
@@ -73,7 +89,30 @@ export default {
   data() {
     return {
       showList: false,
+      userDataStrings: localStorage.getItem("listData") || null
     };
+  },
+  computed: {
+    getUsers() {
+    if (this.userDataStrings) {
+      const users = JSON.parse(this.userDataStrings);
+      const lastUser = users[users.length - 1];
+      return lastUser ? lastUser.loginname : null;
+    }
+    return null;
+  }
+    ,
+    logged() {
+      if(this.userDataStrings){
+      const users = JSON.parse(this.userDataStrings);
+      const lastUser = users[users.length - 1];
+      const nameOfLastUsers = lastUser.logged;
+      return nameOfLastUsers;
+      }
+      else{
+        return false
+      }
+    },
   },
   methods: {
     listShow() {
@@ -88,6 +127,13 @@ export default {
         query: { param: param } // thêm giá trị {param được truyền ở trên} vào đối tượng param để thay đổi đường dấn url
       });
     }
+    , logout() {
+      localStorage.removeItem("listData");
+      const userDataStrings = localStorage.getItem("listData");
+      console.log(userDataStrings);
+      console.log("aaaaa");
+      this.userDataStrings = null;
+    },
   },
 };
 </script>
@@ -139,6 +185,39 @@ a {
 .menu{
   display: none;
 }
+.logged {
+  position: relative;
+}
+.extra {
+  display: none !important;
+  position: absolute;
+  background-color: white;
+  padding: 15px 30px;
+  top: 20px;
+  left: -79px;
+  color: black;
+  display: block;
+  text-align: left;
+  border-radius: 2px;
+  li {
+    padding: 8px 0px;
+    font-size: 16px;
+    a {
+      color: black;
+      font-size: 16px;
+    }
+  }
+  li:hover a {
+    color: rgb(24, 205, 151);
+  }
+}
+.name:hover + .extra {
+  display: block !important;
+}
+.name:hover {
+  color: black;
+}
+
 // reponsive
 @media screen and (max-width: 1080px) {
   li {

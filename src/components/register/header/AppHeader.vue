@@ -5,11 +5,8 @@
             <router-link to="/">
                 <img src="@/assets/login/PasedangNhap/logo.png" alt="">
             </router-link>
-            <h3 v-if="block">
+            <h3>
                 Đăng ký 
-            </h3>
-            <h3 v-else>
-                Đăng nhập
             </h3>
             
           </li>
@@ -24,14 +21,6 @@
 
 <script>
     export default {
-        data(){
-           return{
-            
-           }
-        },
-        props:{
-            block:Boolean
-        }
     }
 </script>
 

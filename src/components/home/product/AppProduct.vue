@@ -51,8 +51,9 @@
           </li>
         </ul>
       </div>
-      <button class="add">
-        <a href=""> Xem Thêm </a>
+      <button class="add" @click="addproduct">
+        <div v-if="addProduct">Xem Thêm </div>
+        <div v-else>Thu Gọn </div>
       </button>
     </div>
   </div>
@@ -67,6 +68,7 @@ export default {
     return {
       minprice: null,
       maxprice: null,
+      addProduct : true
     };
   },
   components: {
@@ -95,6 +97,10 @@ export default {
     reduce() {
       useProStore().reduceProduct();
     },
+    addproduct(){
+      useProStore().fullProduct = !useProStore().fullProduct
+      this.addProduct =! this.addProduct
+    }
   },
 };
 </script>
@@ -247,7 +253,7 @@ ul {
   background-color: white;
   z-index: 9999;
   position: sticky;
-  top: 133.5px;
+  top: 132px;
   width: 100%;
   padding: 18px;
   border-bottom: 3px solid rgb(239, 96, 35);

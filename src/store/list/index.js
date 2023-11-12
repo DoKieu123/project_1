@@ -92,6 +92,7 @@ const useCoachesStore = defineStore("coaches", {
   getters: {
     visibleItems() {
       // Dựa vào giá trị của biến showFirst để trả về danh sách item hiển thị
+      // slice():sử dụng để trích xuất một phần của một mảng hoặc chuỗi và tạo ra một mảng hoặc chuỗi mới 
       if (this.showFirst) {
         return this.coaches.slice(0, 10);
       } else {

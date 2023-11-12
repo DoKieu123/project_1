@@ -29,57 +29,33 @@
         <div class="avatar">
           <img src="@/assets/uer/use_one.jpg" alt="">
         </div>
-        <span class="name"> PamHaiDuong</span>
+        <span class="name"> {{ user }}</span>
       </div>
     </ul>
   </div>
   <!-- tab phụ bên phải khi reponsive -->
-  <base-dialog v-if="showList" @close="listShow" class="flex">
-  <template #default >
-    <div class="flex_mobile">
-      <ul class="list_mobie" >
-        <li>
-          <img src="@/assets/SHOPEEMALL-LOGO.png" alt="" />
-          <i class="fa-solid fa-x closed" @click="closedList"></i>
-        </li>
-        <li class="vertical"><a href="">Kênh Người Bán </a></li>
-        <li class="vertical"><a href="">Trở thành Người bán Shopee </a></li>
-        <li class="vertical"><a href="">Tải úng dụng </a></li>
-        <li>
-          Kết nối
-          <i class="fa-brands fa-facebook"></i>
-          <i class="fa-brands fa-instagram"></i>
-        </li>
-        <li>
-          <a href=""><i class="fa-regular fa-bell"></i> Thông Báo </a>
-        </li>
-        <li>
-          <a href=""><i class="fa-regular fa-circle-question"></i> Hộ Trợ </a>
-        </li>
-        <li>
-          <a href=""
-            ><i class="fa-solid fa-globe"></i> Tiếng Việt
-            <i class="fa-solid fa-chevron-up fa-rotate-180"></i
-          ></a>
-        </li>
-        <li class="vertical"><a href="">Đăng ký </a></li>
-        <li><a href="">Đăng nhập</a></li>
-      </ul>
-      </div>
-    </template>
-  </base-dialog>
-    
-  <i class="fa-solid fa-list menu" @click="listShow" v-else></i>
-    
+
  
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       showList: false,
+      userDataStrings: localStorage.getItem("listData") || null
     };
+  },
+  computed:{
+    user(){
+      if (this.userDataStrings) {
+      const users = JSON.parse(this.userDataStrings);
+      const lastUser = users[users.length - 1];
+      return lastUser ? lastUser.loginname : null;
+    }
+    return null;
+    }
   },
   methods: {
     listShow() {

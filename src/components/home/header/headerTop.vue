@@ -23,49 +23,63 @@
           <i class="fa-solid fa-chevron-up fa-rotate-180"></i
         ></a>
       </li>
-      <li class="vertical"><a href="" @click="login('sign_in')">Đăng ký </a></li>
-      <li><a href="" @click="login('login_in')">Đăng nhập</a></li>
+
+      <li>
+        <ul v-if="!logged">
+          <li class="vertical">
+            <router-link to="/register">Đăng ký </router-link>
+          </li>
+          <li><router-link href="" to="/login">Đăng nhập</router-link></li>
+        </ul>
+        <ul class="logged" v-else>
+          <li class="name">{{ getUsers }}</li>
+          <ul class="extra">
+            <li><router-link to="/cart"> Đơn Hàng </router-link></li>
+            <li>
+              <div @click="logout">Đăng Xuất </div>
+            </li>
+          </ul>
+        </ul>
+      </li>
     </ul>
   </div>
   <!-- tab phụ bên phải khi reponsive -->
   <base-dialog v-if="showList" @close="listShow">
-  <template #default >
-    <div class="flex_mobile">
-      <ul class="list_mobie" >
-        <li>
-          <img src="@/assets/SHOPEEMALL-LOGO.png" alt="" />
-          <i class="fa-solid fa-x closed" @click="closedList"></i>
-        </li>
-        <li class="vertical"><a href="">Kênh Người Bán </a></li>
-        <li class="vertical"><a href="">Trở thành Người bán Shopee </a></li>
-        <li class="vertical"><a href="">Tải úng dụng </a></li>
-        <li>
-          Kết nối
-          <i class="fa-brands fa-facebook"></i>
-          <i class="fa-brands fa-instagram"></i>
-        </li>
-        <li>
-          <a href=""><i class="fa-regular fa-bell"></i> Thông Báo </a>
-        </li>
-        <li>
-          <a href=""><i class="fa-regular fa-circle-question"></i> Hộ Trợ </a>
-        </li>
-        <li>
-          <a href=""
-            ><i class="fa-solid fa-globe"></i> Tiếng Việt
-            <i class="fa-solid fa-chevron-up fa-rotate-180"></i
-          ></a>
-        </li>
-        <li class="vertical"><a href="">Đăng ký </a></li>
-        <li><a href="">Đăng nhập</a></li>
-      </ul>
+    <template #default>
+      <div class="flex_mobile">
+        <ul class="list_mobie">
+          <li>
+            <img src="@/assets/SHOPEEMALL-LOGO.png" alt="" />
+            <i class="fa-solid fa-x closed" @click="closedList"></i>
+          </li>
+          <li class="vertical"><a href="">Kênh Người Bán </a></li>
+          <li class="vertical"><a href="">Trở thành Người bán Shopee </a></li>
+          <li class="vertical"><a href="">Tải úng dụng </a></li>
+          <li>
+            Kết nối
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+          </li>
+          <li>
+            <a href=""><i class="fa-regular fa-bell"></i> Thông Báo </a>
+          </li>
+          <li>
+            <a href=""><i class="fa-regular fa-circle-question"></i> Hộ Trợ </a>
+          </li>
+          <li>
+            <a href=""
+              ><i class="fa-solid fa-globe"></i> Tiếng Việt
+              <i class="fa-solid fa-chevron-up fa-rotate-180"></i
+            ></a>
+          </li>
+          <li class="vertical"><a href="">Đăng ký </a></li>
+          <li><a href="">Đăng nhập</a></li>
+        </ul>
       </div>
     </template>
   </base-dialog>
-    
+
   <i class="fa-solid fa-list menu" @click="listShow" v-else></i>
-    
- 
 </template>
 
 <script>
@@ -73,7 +87,30 @@ export default {
   data() {
     return {
       showList: false,
+      userDataStrings: localStorage.getItem("listData") || null
     };
+  },
+  computed: {
+    getUsers() {
+    if (this.userDataStrings) {
+      const users = JSON.parse(this.userDataStrings);
+      const lastUser = users[users.length - 1];
+      return lastUser ? lastUser.loginname : null;
+    }
+    return null;
+  }
+    ,
+    logged() {
+      if(this.userDataStrings){
+      const users = JSON.parse(this.userDataStrings);
+      const lastUser = users[users.length - 1];
+      const nameOfLastUsers = lastUser.logged;
+      return nameOfLastUsers;
+      }
+      else{
+        return false
+      }
+    },
   },
   methods: {
     listShow() {
@@ -82,12 +119,14 @@ export default {
     closedList() {
       this.showList = !this.showList;
     },
-    login(param){
-      this.$router.push({//Phương thức push được sử dụng để chuyển hướng người dùng đến một địa chỉ URL mới.
-        path:"/login", // điều hướng tới trang login 
-        query: { param: param } // thêm giá trị {param được truyền ở trên} vào đối tượng param để thay đổi đường dấn url
-      });
-    }
+    logout() {
+      localStorage.removeItem("listData");
+      const userDataStrings = localStorage.getItem("listData");
+      console.log(userDataStrings);
+      console.log("aaaaa");
+      this.userDataStrings = null;
+    },
+    
   },
 };
 </script>
@@ -136,9 +175,48 @@ a {
   text-decoration: none;
   color: white;
 }
-.menu{
+.menu {
   display: none;
 }
+.logged {
+  position: relative;
+}
+.extra {
+display: none !important;
+  position: absolute;
+  background-color: white;
+  padding: 15px 30px;
+  top: 20px;
+  left: -79px;
+  color: black;
+  display: block;
+  text-align: left;
+  border-radius: 2px;
+  li {
+    padding: 8px 0px;
+    font-size: 16px;
+    a {
+      color: black;
+      font-size: 16px;
+    }
+  }
+  li:hover a {
+    color: rgb(24, 205, 151);
+  }
+  li:hover  {
+    color: rgb(24, 205, 151);
+  }
+}
+.name:hover + .extra {
+  display: block !important;
+}
+.extra:hover{
+    display: block!important;
+  }
+.name:hover {
+  color: black;
+}
+
 // reponsive
 @media screen and (max-width: 1080px) {
   li {
@@ -152,9 +230,9 @@ a {
   .flex {
     display: none;
   }
-  .menu{
-  display: block;
-}
+  .menu {
+    display: block;
+  }
   .flex_mobile {
     display: block;
     position: fixed;

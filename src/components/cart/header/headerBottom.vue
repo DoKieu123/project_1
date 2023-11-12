@@ -1,8 +1,8 @@
 <template>
     <div class="logo">
-        <div class="img_logo">
+        <router-link to="/" class="img_logo">
             <img src="@/assets/Shopee.svg.png" alt="">
-        </div>
+        </router-link>
         <h4>Giỏ Hàng</h4>
     </div>
 </template>

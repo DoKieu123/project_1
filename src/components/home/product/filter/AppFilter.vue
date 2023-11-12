@@ -27,6 +27,8 @@ export default {
   methods: {
     setfilter(){
         this.$emit("setfilter",this.filter)
+        this.filter.min = null
+        this.filter.max =null
     },
     setprice(){
         this.$emit("increasePrice")

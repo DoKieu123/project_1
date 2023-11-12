@@ -2,30 +2,29 @@
   <div>
     <div class="backgrou">
       <img src="@/assets/login/PasedangNhap/bgr.jpg" alt="" />
-      <form action="" id="login" @submit.prevent="loginshopee">
-        <div class="header">
-          <h5>Đăng nhập</h5>
-          <div class="text_qr">
-            <span> Đăng nhập với mã QR </span>
-            <a href="">
-              <i class="fa-solid fa-qrcode"></i>
-            </a>
-          </div>
+      <form action="" id="login" @submit.prevent="login">
+        <div class="header" >
+          <h5>Đăng Ký</h5>
         </div>
         <div>
-          <input
-            type="text"
-            placeholder="Tên đăng nhập"
-            v-model.trim="logins.loginname"
-          />
-          <div class="password">
-            <input
-              type="password"
-              placeholder="Mật khẩu"
-              v-model.trim="logins.loginpassword"
-            />
-            <i class="fa-regular fa-eye"></i>
-          </div>
+          <input type="text" placeholder="Mời bạn nhập Tên" @focus="onInputFocus"  v-model="infor.name"/>
+          <p
+          :class="{
+            'my-class': nameIsValid === true,
+            'red': nameIsValid === false,
+          }"
+        >
+        Incorrect name, please enter again!
+        </p>
+          <input type="password" placeholder="Mật khẩu" v-model="infor.password" />
+          <p
+          :class="{
+            'my-class': passwordIsValid === true,
+            'red': passwordIsValid === false,
+          }"
+        >
+        Incorrect password, please enter again!
+        </p>
         </div>
         <p
           :class="{
@@ -35,11 +34,7 @@
         >
           Please fix above errors and submit again!
         </p>
-        <button>ĐĂNG NHẬP</button>
-        <div class="forget">
-          <a href="">Quên mật khẩu</a>
-          <a href="">Đăng nhập với SMS </a>
-        </div>
+        <button>ĐĂNG Ký</button>
         <div class="or">
           <span>HOẶC</span>
         </div>
@@ -53,8 +48,13 @@
             Google
           </a>
         </div>
+      <div class="rules">
+        <span>
+          Bằng việc đăng kí, bạn đã đồng ý shopee về <a href=""> Điều khoản dịch vụ </a> & <a href="">Chính sách bảo mật </a>
+        </span>
+      </div>
         <div class="know">
-          <span>Bạn mới biết đến Shopee? <router-link to="/register">Đăng ký</router-link></span>
+          <span>Bạn đã có tài khoản?  <router-link to="/login"> Đăng Nhập</router-link ></span>
         </div>
       </form>
     </div>
@@ -62,61 +62,42 @@
 </template>
 
 <script>
-import useUserStore from "@/store/user";
+import useUserStore from '@/store/user';
 export default {
-  data() {
-    return {
-      logins: { loginname: "", loginpassword: "" ,logged:true},
-      formIsValid: true,
-      name_infor: localStorage.getItem("username"),
-    };
-  },
-  props: {},
-  methods: {
-    // validateForm() {
-    //   this.formIsValid = true;
-    //   if ( this.logins.loginname.length < 10) {
-    //     this.formIsValid = false;
-    //   }
-    //   if (this.logins.loginpassword.length < 10) {
-    //     this.formIsValid = false;
-    //   }
-    // },
-    
-    loginshopee() {
-      if (this.logins.loginname === "" || this.logins.loginpassword === "") {
+ data() {
+  return {
+    infor:{ name:'',password:'' },
+    formIsValid: true,
+    nameIsValid: true,
+    passwordIsValid : true
+  }
+ },
+ methods: {
+  login(){
+    if (this.infor.name === "" || this.infor.password === "") {
         this.formIsValid = false;
         return;
       }
-
-      const userToLogin = useUserStore().alluser.find((user) => {
-        return (
-          user.name === this.logins.loginname &&
-          user.password === this.logins.loginpassword
-        );
-      });
-      if (userToLogin) {
-        localStorage.setItem("user", JSON.stringify(this.logins));
-        const userDataString = localStorage.getItem("user");
-        const users = JSON.parse(userDataString);
-//gán biến listData = -giá trị lấy ra(đã biến đổi về kiểu dữ liệu javascrip) trong localStorage có key là "listData"
-              //      - nếu key không tồn tại(null) thì gán bằng mảng rỗng 
-// => để đảm bảo rằng biến listData lúc nào cũng tồn tại là một mảng 
-        let listData = JSON.parse(localStorage.getItem("listData")) || [];
-        // Thêm danh sách người dùng (users) vào mảng `listData`
-        listData.push(users)
-        // Lưu trữ `listData` vào `localStorage`
-        localStorage.setItem("listData", JSON.stringify(listData));
-        const userDataStrings = localStorage.getItem("listData");
-        console.log(userDataStrings);
-        alert("đăng nhập thành công");
-        this.$router.replace("/");
-      } else {
-        alert("tên , mật khẩu chưa đúng ! xin mời mật lại");
-        (this.logins.loginname = ""), (this.logins.loginpassword = "");
-      }
-    },
-  },
+    if(this.infor.name.length < 7 ||this.infor.name[0] !== this.infor.name[0].toUpperCase() ){
+      this.nameIsValid =false;
+        return;
+    }
+     if(this.infor.password.length < 7 ){
+        this.passwordIsValid =false;
+        return;
+    }
+    else{
+        useUserStore().login(this.infor)
+        this.$router.replace("/login");
+    }
+         
+  }
+  ,onInputFocus(){
+    this.formIsValid =true
+    this.nameIsValid =true
+  }
+ }
+  
 };
 </script>
 
@@ -246,6 +227,7 @@ button {
   justify-content: space-between;
   font-size: 13px;
 
+
   a {
     color: rgb(16, 19, 208);
   }
@@ -265,7 +247,7 @@ button {
   color: #d3d3d3;
 }
 .social {
-  margin: 20px;
+ margin: 20px;
   display: flex;
   justify-content: space-between;
 }
@@ -290,12 +272,12 @@ button {
     color: #ff2a00;
   }
 }
-.rules {
-  margin: 40px 0px;
+.rules{
+  margin: 20px 0px ;
   font-size: 13px;
   padding: 0px 40px;
   color: rgb(21, 21, 21);
-  a {
+  a{
     color: rgb(255, 38, 0);
   }
 }
